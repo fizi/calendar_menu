@@ -87,10 +87,16 @@ $cal_super = $ecal_class->cal_super;
 // Actually load three in order so they can accumulate, and give the option of overriding other settings
 $EVENT_CAL_PDF_HEADER = array();
 $EVENT_CAL_PDF_BODY   = array();
-$EVENT_CAL_PDF_FOOTER = array();
-if (is_readable(e_PLUGIN.'calendar_menu/ec_pf_template.php')) require_once(e_PLUGIN.'calendar_menu/ec_pf_template.php');
-if (is_readable(e_PLUGIN.'calendar_menu/ec_pf_user_template.php')) require_once(e_PLUGIN.'calendar_menu/ec_pf_user_template.php');
-if (is_readable(THEME.'ec_pf_template.php')) require_once(THEME.'ec_pf_template.php');
+$EVENT_CAL_PDF_FOOTER = array();  
+if (is_readable(THEME.'templates/calendar_menu/ec_pf_template.php')) 
+{  // Has to be require
+	require(THEME.'templates/calendar_menu/ec_pf_template.php');
+}
+else 
+{
+	require(e_PLUGIN.'calendar_menu/templates/ec_pf_template.php');
+}
+if (is_readable(e_PLUGIN.'calendar_menu/templates/ec_pf_user_template.php')) require_once(e_PLUGIN.'calendar_menu/templates/ec_pf_user_template.php');
 
 // Hard-coded alternatives
 if (!count($EVENT_CAL_PDF_HEADER)) $EVENT_CAL_PDF_HEADER['default'] = '<br />';
@@ -157,8 +163,12 @@ if (!isset($ec_qs[0]) || !isset($ec_qs[1]))
 	
 	$cal_text .= "<tr><td colspan='2'  style='text-align:center' class='fcaption'><input class='btn button' type='submit' name='set_dates' value='".EC_LAN_156."' /></td></tr>";
 
-	$cal_text .= "</table></form></div>";
-  $ns->tablerender(EC_LAN_150, $cal_text);
+	$cal_text .= "</table></form></div>"; 
+  
+  $caption = $tp->parseTemplate($EVENT_CAL_PDF_CAPTION['caption'], FALSE, $calSc);
+        
+  // $ns->tablerender($caption, $cal_text);
+  $ns->tablerender($caption, $cal_text);
   require_once(FOOTERF);
   exit;
 }
@@ -185,7 +195,11 @@ elseif (($ec_end_date - $ec_start_date) > 366*86400)
 if ($message !== "")
 {
   require_once(HEADERF);
-  $ns->tablerender(EC_LAN_80, $message);
+  
+  $caption = $tp->parseTemplate($EVENT_CAL_PDF_DEFAULT_CAPTION['caption'], FALSE, $calSc);
+  
+  // $ns->tablerender(EC_LAN_80, $message);
+  $ns->tablerender($caption, $message);
   require_once(FOOTERF);
   exit;
 }
@@ -331,7 +345,11 @@ else
 switch($ec_output_type)
 {
 	case 'display':
-		$ns->tablerender(EC_LAN_80, $cal_text, 'ec_pf_page');
+    
+    $caption = $tp->parseTemplate($EVENT_CAL_PDF_DEFAULT_CAPTION['caption'], FALSE, $calSc);
+  
+		// $ns->tablerender(EC_LAN_80, $cal_text, 'ec_pf_page');
+    $ns->tablerender($caption, $cal_text, 'ec_pf_page');
 		require_once (FOOTERF);
 	break;
 	

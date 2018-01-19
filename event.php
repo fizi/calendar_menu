@@ -393,6 +393,15 @@ function merge_date_time($date, $time)
 //-------------------------------------
 // 		enter new event form
 //-------------------------------------
+if (is_readable(THEME.'templates/calendar_menu/calendar_template.php')) 
+{  // Has to be require
+	require(THEME.'templates/calendar_menu/calendar_template.php');
+}
+else 
+{
+	require(e_PLUGIN.'calendar_menu/templates/calendar_template.php');
+}
+
 if ($action == 'ne' || $action == 'ed')
 {
 	if ($ecal_class->cal_super || check_class($ecal_class->pref['eventpost_admin']))
@@ -442,7 +451,7 @@ if ($action == 'ne' || $action == 'ed')
         $end_minute = $smarray['minutes'];
         $ne_enddate = $ecal_class->full_date($qs[1]);
 		$recurring = 0;
-        $caption = EC_LAN_28; // Enter New Event
+        $caption = EC_LAN_28; // Enter New Event 
 
 	  default :
         $caption = EC_LAN_83;
@@ -669,7 +678,7 @@ if ($action == 'ne' || $action == 'ed')
 		</table>
 		</form>";
 
-        $ns->tablerender($caption, $text);
+        $ns->tablerender($caption, $text, 'event-calendar-event');
         require_once(FOOTERF);
         exit();
     }
@@ -685,13 +694,13 @@ if ($action == 'ne' || $action == 'ed')
 // show events
 // $month, $year have the month required
 //-----------------------------------------------
-if (is_readable(THEME.'calendar_template.php')) 
+if (is_readable(THEME.'templates/calendar_menu/calendar_template.php')) 
 {  // Has to be require
-	require(THEME.'calendar_template.php');
+	require(THEME.'templates/calendar_menu/calendar_template.php');
 }
 else 
 {
-	require(e_PLUGIN.'calendar_menu/calendar_template.php');
+	require(e_PLUGIN.'calendar_menu/templates/calendar_template.php');
 }
 
 $calSc->ecalClass = &$ecal_class;					// Give shortcodes a pointer to calendar class
@@ -838,7 +847,7 @@ $text2 .= $archive_events;
 $text2 .= $tp->parseTemplate($EVENT_ARCHIVE_TABLE_END, FALSE, $calSc);
 
 
-$ns->tablerender($tp->ParseTemplate('{EC_EVENT_PAGE_TITLE}', FALSE, $calSc), $text2);
+$ns->tablerender($tp->ParseTemplate('{EC_EVENT_PAGE_TITLE}', FALSE, $calSc), $text2, 'event-calendar-event');
 
 // Claim back memory no longer required
 unset($ev_list);

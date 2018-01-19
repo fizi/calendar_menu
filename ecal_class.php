@@ -320,11 +320,10 @@ class ecal_class
 		$opt = array(
 			'type' => 'date',
 			'format' => $this->dcal_format_string,
-			'firstDay' => $this->ec_first_day_of_week, // 0 = Sunday.
-			'size' => 12,
-			'return' => 'string',
-		);
-
+			'firstDay' => $this->ec_first_day_of_week,		// 0 = Sunday.
+			// 'size' => 12,
+      'return'  => 'string',
+			);
 		return $frm->datepicker($boxname, $boxvalue, $opt);
 	}
 

@@ -37,6 +37,16 @@ if (!is_object($ecal_class)) $ecal_class = new ecal_class;
 
 include_lan(e_PLUGIN .'calendar_menu/languages/'.e_LANGUAGE.'.php');
 define('PAGE_NAME', EC_LAN_80);
+
+if (is_readable(THEME.'templates/calendar_menu/calendar_template.php')) 
+{
+	require(THEME.'templates/calendar_menu/calendar_template.php');
+}
+else 
+{
+	require(e_PLUGIN.'calendar_menu/templates/calendar_template.php');
+}
+
 require_once(HEADERF);
 
 
@@ -104,7 +114,7 @@ if ((USER) && (isset($ecal_class->pref['eventpost_asubs']) && ($ecal_class->pref
 		{
 			$caltext .= "<tr><td class='forumheader3' colspan='3'>" . EC_LAN_128 . "</td></tr>";
 		} 
-		$caltext .= "<tr><td class='forumheader3' colspan='3'><input class='tbox' type='submit' value='" . EC_LAN_129 . "' name='upsubs' /></td></tr>";
+		$caltext .= "<tr><td class='forumheader3' colspan='3'><input class='btn button' type='submit' value='" . EC_LAN_129 . "' name='upsubs' /></td></tr>";
 		$caltext .= "</table></form>";
 	}
 }
@@ -114,8 +124,12 @@ else
 		$caltext = EC_LAN_142;	// Register or log in 
 	else
 		$caltext = EC_LAN_143;	// No facility
-} 
-e107::getRender()->tablerender(EC_LAN_124, $caltext);
+}
+
+$caption = $tp->parseTemplate($CALENDAR_SUBSCRIBE_CAPTION['caption'], FALSE, $calSc);
+ 
+// e107::getRender()->tablerender(EC_LAN_124, $caltext);
+e107::getRender()->tablerender($caption, $caltext);
 require_once(FOOTERF);
 
 ?>

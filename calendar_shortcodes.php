@@ -264,12 +264,12 @@ class event_calendar_shortcodes
 	// Navigation shortcodes
 	public function sc_ec_prev_month($parm = '')
 	{
-		return "<a href='".e_SELF."?".$this->previous."'>&lt;&lt; ".$this->months[($this->prevMonth-1)]."</a>";
+		return "<a class='btn btn-default btn-sm' href='".e_SELF."?".$this->previous."'>&lt;&lt; ".$this->months[($this->prevMonth-1)]."</a>";
 	}
 
 	public function sc_ec_next_month($parm = '')
 	{
-		return "<a href='".e_SELF."?".$this->next."'> ".$this->months[($this->nextMonth-1)]." &gt;&gt;</a>";
+		return "<a class='btn btn-default btn-sm' href='".e_SELF."?".$this->next."'> ".$this->months[($this->nextMonth-1)]." &gt;&gt;</a>";
 	}
 
 
@@ -285,12 +285,12 @@ class event_calendar_shortcodes
 
 	public function sc_ec_prev_year($parm = '')
 	{
-		return "<a href='".e_SELF."?".$this->prevLink."'>&lt;&lt; ".$this->py."</a>";
+		return "<a class='btn btn-default btn-sm' href='".e_SELF."?".$this->prevLink."'>&lt;&lt; ".$this->py."</a>";
 	}
 
 	public function sc_ec_next_year($parm = '')
 	{
-		return "<a href='".e_SELF."?".$this->nextLink."'>".$this->ny." &gt;&gt;</a>";
+		return "<a class='btn btn-default btn-sm' href='".e_SELF."?".$this->nextLink."'>".$this->ny." &gt;&gt;</a>";
 	}
 
 
@@ -332,7 +332,7 @@ class event_calendar_shortcodes
 		$ret = "<input type='hidden' name='enter_new_val' value='".$this->prop."' />";
 		if ($this->ecalClass->cal_super || check_class($this->ecalClass->pref['eventpost_admin']))
 		{
-			$ret .= "<input class='btn button' type='submit' style='width:140px;' name='doit' value='".EC_LAN_94."' />";
+			$ret .= "<input class='btn button' type='submit' style='width:140px;' name='doit' value='".EC_LAN_94."' title='".EC_LAN_94."' />";
 		}
 		return $ret;
 	}
@@ -342,7 +342,7 @@ class event_calendar_shortcodes
 		$ret = '';
 		if ($this->month != $this->nowMonth || $this->year != $this->nowYear || $this->ds == 'one')
 		{	// Just jump to current page without a query part - that will default to today
-			$ret = "<input class='btn button' type='button' style='width:140px;' name='cur' value='".EC_LAN_40."' onclick=\"javascript:document.location='".e_SELF."'\" />";
+			$ret = "<input class='btn button' type='button' style='width:140px;' name='cur' value='".EC_LAN_40."' title='".EC_LAN_40."' onclick=\"javascript:document.location='".e_SELF."'\" />";
 		}
 		return $ret;
 	}
@@ -369,7 +369,7 @@ class event_calendar_shortcodes
 		}
 		
 		($parm == 'nosubmit') ? $insert = '' : $insert = "onchange='this.form.submit()'";
-		$ret = "<select name='event_cat_ids' class='tbox' style='width:140px;' {$insert} >\n<option value='all'>".EC_LAN_97."</option>\n";
+		$ret = "<select name='event_cat_ids' class='form-control' style='width:140px; display:inline-block;' {$insert} >\n<option value='all'>".EC_LAN_97."</option>\n";
 
 		$cal_arg = ($this->ecalClass->cal_super ? '' : " find_in_set(event_cat_class,'".USERCLASS_LIST."') AND ");
 		$cal_arg .= "(event_cat_name != '".EC_DEFAULT_CATEGORY."') ";
@@ -378,7 +378,7 @@ class event_calendar_shortcodes
 		while ($row = $this->ourDB->db_Fetch())
 		{
 			$selected = ($row['event_cat_id'] == $this->catFilter) ? " selected='selected'" : '';
-			$ret .= "<option class='tbox' value='".$row['event_cat_id']."'{$selected}>".$row['event_cat_name']."</option>\n";
+			$ret .= "<option value='".$row['event_cat_id']."'{$selected}>".$row['event_cat_name']."</option>\n";
 		}
 		$ret .= "</select>\n";
 		return $ret;
@@ -809,7 +809,7 @@ class event_calendar_shortcodes
 	{
 		if (isset($this->event['event_thread']) && ($this->event['event_thread'] != ''))
 		{
-		return "<a href='{$this->event['event_thread']}'><img src='".e_IMAGE_ABS."admin_images/forums_32.png' alt='' style='border:0; vertical-align:middle;' width='16' height='16' /></a> <a href='{$this->event['event_thread']}'>".EC_LAN_39."</a>";
+		return "<a href='{$this->event['event_thread']}'>".EC_LAN_39."</a>";
 		}
 		return '';
 	}
@@ -820,7 +820,7 @@ class event_calendar_shortcodes
 		$event_author_name = strstr(varset($this->event['event_author'],'0.??'),'.');
 		if (USERNAME == $event_author_name || $this->ecalClass->cal_super || check_class($this->ecalClass->pref['eventpost_admin']))
 		{
-			return "<a href='".e_PLUGIN_ABS."calendar_menu/event.php?ed.".$this->event['event_id']."'><img class='icon S16' src='".e_IMAGE_ABS."admin_images/edit_16.png' title='".EC_LAN_35."' alt='".EC_LAN_35 . "'/></a>&nbsp;&nbsp;<a href='".e_PLUGIN_ABS.'calendar_menu/event.php?de.'.$this->event['event_id']."'><img style='border:0;' src='".e_IMAGE_ABS."admin_images/delete_16.png' title='".EC_LAN_36."' alt='".EC_LAN_36."'/></a>";
+			return "<a href='".e_PLUGIN_ABS."calendar_menu/event.php?ed.".$this->event['event_id']."'><span class='glyphicon glyphicon-edit' title='".EC_LAN_35."' alt='".EC_LAN_35."'></span></a>&nbsp;&nbsp;<a href='".e_PLUGIN_ABS.'calendar_menu/event.php?de.'.$this->event['event_id']."'><span class='glyphicon glyphicon-remove' title='".EC_LAN_36."' alt='".EC_LAN_36."'></a>";
 		}
 	}
 

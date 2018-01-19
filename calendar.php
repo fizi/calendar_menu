@@ -60,13 +60,13 @@ define('PAGE_NAME', EC_LAN_121);
 require_once(e_PLUGIN.'calendar_menu/ecal_class.php');
 $ecal_class = new ecal_class;
 
-if (is_readable(THEME.'calendar_template.php')) 
+if (is_readable(THEME.'templates/calendar_menu/calendar_template.php')) 
 {
-	require(THEME.'calendar_template.php');
+	require(THEME.'templates/calendar_menu/calendar_template.php');
 }
 else 
 {
-	require(e_PLUGIN.'calendar_menu/calendar_template.php');
+	require(e_PLUGIN.'calendar_menu/templates/calendar_template.php');
 }
 
 
@@ -269,9 +269,11 @@ if($loop!=0)
 		$text .= $tp->parseTemplate($CALENDAR_CALENDAR_DAY_NON, FALSE, $calSc);
 	}
 }
-$text .= $tp->parseTemplate($CALENDAR_CALENDAR_END, FALSE, $calSc);
+$text .= $tp->parseTemplate($CALENDAR_CALENDAR_END, FALSE, $calSc); 
 
-$ns->tablerender(EC_LAN_79, $cal_text . $nav_text . $text);
+$caption = $tp->parseTemplate($CALENDAR_CAPTION['caption'], FALSE, $calSc);
+
+$ns->tablerender(EC_LAN_79, $cal_text . $nav_text . $text, 'event-calendar');
 
 // Claim back memory from key variables
 unset($ev_list);
