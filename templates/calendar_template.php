@@ -26,7 +26,6 @@
  */
 
 
-
 if (!defined('e107_INIT')) { exit; }
 if (!defined('USER_WIDTH')){ define('USER_WIDTH','width:auto'); }
 
