@@ -81,6 +81,7 @@ if(empty($CALENDAR_TEMPLATE))
 	}
 }
 
+
 if(is_array($CALENDAR_TEMPLATE) && THEME_LEGACY !== true) // new v2.x format.
 {
 
