@@ -24,7 +24,6 @@
  *	@version 	$Id$;
  */
 
-
 /*
 This template is used during the subscription mailouts - it is inserted at the front of the text
 defined for each category.
