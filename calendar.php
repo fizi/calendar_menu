@@ -60,13 +60,44 @@ define('PAGE_NAME', EC_LAN_121);
 require_once(e_PLUGIN.'calendar_menu/ecal_class.php');
 $ecal_class = new ecal_class;
 
-if (is_readable(THEME.'templates/calendar_menu/calendar_template.php')) 
+
+if(empty($CALENDAR_TEMPLATE))
 {
-	require(THEME.'templates/calendar_menu/calendar_template.php');
+	// include(e_PLUGIN.'calendar_menu/templates/calendar_template.php');
+
+	// Override with theme template
+	if(THEME_LEGACY !== true) //v2.x
+	{
+		$CALENDAR_TEMPLATE = e107::getTemplate('calendar_menu','calendar'); // required to use v2.x wrapper shortcode wrappers.
+	}
+	elseif(file_exists(THEME.'templates/calendar_menu/calendar_template.php'))
+	{
+	//	$CALENDAR_TEMPLATE = e107::getTemplate('calendar_menu','calendar_menu');
+		require_once(THEME.'templates/calendar_menu/calendar_template.php');
+	}
+	else
+	{
+		require_once(e_PLUGIN.'calendar_menu/templates/calendar_template.php');
+	}
 }
-else 
+
+if(is_array($CALENDAR_TEMPLATE) && THEME_LEGACY !== true) // new v2.x format.
 {
-	require(e_PLUGIN.'calendar_menu/templates/calendar_template.php');
+
+	$CALENDAR_TIME_TABLE		        = $CALENDAR_TEMPLATE['calendar']['time_table'];
+	$CALENDAR_NAVIGATION_TABLE 		  = $CALENDAR_TEMPLATE['calendar']['navigation_table'];
+	$CALENDAR_CALENDAR_START	      = $CALENDAR_TEMPLATE['calendar']['start'];  
+  $CALENDAR_CALENDAR_HEADER_START = $CALENDAR_TEMPLATE['calendar']['header_start'];
+  $CALENDAR_CALENDAR_HEADER       = $CALENDAR_TEMPLATE['calendar']['header'];
+  $CALENDAR_CALENDAR_HEADER_END   = $CALENDAR_TEMPLATE['calendar']['header_end'];  
+  $CALENDAR_CALENDAR_WEEKSWITCH   = $CALENDAR_TEMPLATE['calendar']['weekswitch'];
+  $CALENDAR_CALENDAR_DAY_NON      = $CALENDAR_TEMPLATE['calendar']['day_non']; 
+  $CALENDAR_CALENDAR_DAY_TODAY    = $CALENDAR_TEMPLATE['calendar']['day_today'];
+  $CALENDAR_CALENDAR_DAY_EVENT    = $CALENDAR_TEMPLATE['calendar']['day_event'];
+  $CALENDAR_CALENDAR_DAY_EMPTY    = $CALENDAR_TEMPLATE['calendar']['day_empty']; 
+  $CALENDAR_CALENDAR_DAY_END      = $CALENDAR_TEMPLATE['calendar']['day_end'];  
+  $CALENDAR_SHOWEVENT             = $CALENDAR_TEMPLATE['calendar']['show_event'];   
+  $CALENDAR_CALENDAR_END          = $CALENDAR_TEMPLATE['calendar']['end'];
 }
 
 

@@ -24,6 +24,7 @@
  *	@version 	$Id$;
  */
 
+
 /*
   Templates file for the event calendar listings (display/print/pdf).
   There can be more than one template defined, in which case they are selectable.
