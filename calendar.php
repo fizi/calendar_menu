@@ -86,18 +86,19 @@ if(is_array($CALENDAR_TEMPLATE) && THEME_LEGACY !== true) // new v2.x format.
 
 	$CALENDAR_TIME_TABLE		        = $CALENDAR_TEMPLATE['calendar']['time_table'];
 	$CALENDAR_NAVIGATION_TABLE 		  = $CALENDAR_TEMPLATE['calendar']['navigation_table'];
-	$CALENDAR_CALENDAR_START	      = $CALENDAR_TEMPLATE['calendar']['start'];  
-  $CALENDAR_CALENDAR_HEADER_START = $CALENDAR_TEMPLATE['calendar']['header_start'];
-  $CALENDAR_CALENDAR_HEADER       = $CALENDAR_TEMPLATE['calendar']['header'];
-  $CALENDAR_CALENDAR_HEADER_END   = $CALENDAR_TEMPLATE['calendar']['header_end'];  
-  $CALENDAR_CALENDAR_WEEKSWITCH   = $CALENDAR_TEMPLATE['calendar']['weekswitch'];
-  $CALENDAR_CALENDAR_DAY_NON      = $CALENDAR_TEMPLATE['calendar']['day_non']; 
-  $CALENDAR_CALENDAR_DAY_TODAY    = $CALENDAR_TEMPLATE['calendar']['day_today'];
-  $CALENDAR_CALENDAR_DAY_EVENT    = $CALENDAR_TEMPLATE['calendar']['day_event'];
-  $CALENDAR_CALENDAR_DAY_EMPTY    = $CALENDAR_TEMPLATE['calendar']['day_empty']; 
-  $CALENDAR_CALENDAR_DAY_END      = $CALENDAR_TEMPLATE['calendar']['day_end'];  
-  $CALENDAR_SHOWEVENT             = $CALENDAR_TEMPLATE['calendar']['show_event'];   
-  $CALENDAR_CALENDAR_END          = $CALENDAR_TEMPLATE['calendar']['end'];
+  
+	$CALENDAR_CALENDAR_START	      = $CALENDAR_TEMPLATE['calendar']['big_calendar_start'];  
+  $CALENDAR_CALENDAR_HEADER_START = $CALENDAR_TEMPLATE['calendar']['big_calendar_header_start'];
+  $CALENDAR_CALENDAR_HEADER       = $CALENDAR_TEMPLATE['calendar']['big_calendar_header'];
+  $CALENDAR_CALENDAR_HEADER_END   = $CALENDAR_TEMPLATE['calendar']['big_calendar_header_end'];  
+  $CALENDAR_CALENDAR_WEEKSWITCH   = $CALENDAR_TEMPLATE['calendar']['big_calendar_weekswitch'];
+  $CALENDAR_CALENDAR_DAY_NON      = $CALENDAR_TEMPLATE['calendar']['big_calendar_day_non']; 
+  $CALENDAR_CALENDAR_DAY_TODAY    = $CALENDAR_TEMPLATE['calendar']['big_calendar_day_today'];
+  $CALENDAR_CALENDAR_DAY_EVENT    = $CALENDAR_TEMPLATE['calendar']['big_calendar_day_event'];
+  $CALENDAR_CALENDAR_DAY_EMPTY    = $CALENDAR_TEMPLATE['calendar']['big_calendar_day_empty']; 
+  $CALENDAR_CALENDAR_DAY_END      = $CALENDAR_TEMPLATE['calendar']['big_calendar_day_end'];  
+  $CALENDAR_SHOWEVENT             = $CALENDAR_TEMPLATE['calendar']['big_calendar_show_event'];   
+  $CALENDAR_CALENDAR_END          = $CALENDAR_TEMPLATE['calendar']['big_calendar_end'];
 }
 
 
@@ -304,7 +305,7 @@ $text .= $tp->parseTemplate($CALENDAR_CALENDAR_END, FALSE, $calSc);
 
 $caption = $tp->parseTemplate($CALENDAR_CAPTION['caption'], FALSE, $calSc);
 
-$ns->tablerender(EC_LAN_79, $cal_text . $nav_text . $text, 'event-calendar');
+$ns->tablerender(EC_LAN_79, $cal_text.$nav_text.$text, 'event-calendar-menu');
 
 // Claim back memory from key variables
 unset($ev_list);

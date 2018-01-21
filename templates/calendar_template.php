@@ -40,6 +40,16 @@ if (!defined('EC_RECENT_ICON'))
 }		// Filename of icon used to flag recent events
 
 
+// Calendar News Event page - event.php
+$CALENDAR_EVENT_TEMPLATE['event']['new_event_caption'] = EC_LAN_28;
+
+// Calendar Edit Events page - event.php
+$CALENDAR_EVENT_TEMPLATE['event']['edit_event_caption'] = EC_LAN_66;
+
+// Calendar Default page - event.php
+$CALENDAR_EVENT_TEMPLATE['event']['default_event_caption'] = EC_LAN_83;
+
+
 // TIME SWITCH BUTTONS ------------------------------------------------------------
 $sc_style['EC_PREV_MONTH']['pre'] = "<span class='defaulttext'>";
 $sc_style['EC_PREV_MONTH']['post'] = "</span>";
@@ -61,18 +71,19 @@ $sc_style['EC_NEXT_YEAR']['post'] = '';
 
 
 $CALENDAR_TEMPLATE['calendar']['time_table'] = "
-<table cellpadding='0' cellspacing='1' class='table fborder'>
-  <tr>
-	  <td class='forumheader' style='width:18%; text-align:left'>{EC_PREV_MONTH}</td>
-	  <td class='fcaption' style='width:64%; text-align:center'>{EC_CURRENT_MONTH}</td>
-	  <td class='forumheader' style='width:18%; text-align:right'>{EC_NEXT_MONTH}</td>
-  </tr>\n
-  <tr>
-	  <td class='forumheader3' style='text-align:left'>{EC_PREV_YEAR}</td>
-	  <td class='fcaption' style='text-align:center; vertical-align:middle'>{EC_MONTH_LIST}</td>
-	  <td class='forumheader3' style='text-align:right'>{EC_NEXT_YEAR}</td>
-  </tr>\n
-</table>";
+<div id='event-calendar'>
+  <table cellpadding='0' cellspacing='1' class='table fborder'>
+    <tr>
+	    <td class='forumheader' style='width:18%; text-align:left'>{EC_PREV_MONTH}</td>
+	    <td class='fcaption' style='width:64%; text-align:center'>{EC_CURRENT_MONTH}</td>
+	    <td class='forumheader' style='width:18%; text-align:right'>{EC_NEXT_MONTH}</td>
+    </tr>
+    <tr>
+	    <td class='forumheader3' style='text-align:left'>{EC_PREV_YEAR}</td>
+	    <td class='fcaption' style='text-align:center; vertical-align:middle'>{EC_MONTH_LIST}</td>
+	    <td class='forumheader3' style='text-align:right'>{EC_NEXT_YEAR}</td>
+    </tr>\n
+  </table>";
 
 
 // NAVIGATION BUTTONS
@@ -82,86 +93,113 @@ $sc_style['EC_NAV_LINKCURRENTMONTH']['pre'] = "";
 $sc_style['EC_NAV_LINKCURRENTMONTH']['post'] = "";
 
 $CALENDAR_TEMPLATE['calendar']['navigation_table'] = "
-<div style='text-align:center; margin-bottom:20px;'>
-  <form method='post' action='" . e_SELF . "?" . e_QUERY . "' id='calform'>
-    <table class='table'>
-      <tr>
-        <td style='text-align:center;'>{EC_NAV_CATEGORIES} {EC_NAV_BUT_ALLEVENTS} {EC_NAV_BUT_VIEWCAT} {EC_NAV_BUT_ENTEREVENT} {EC_NAV_BUT_SUBSCRIPTION} {EC_NAV_BUT_PRINTLISTS} {EC_NAV_LINKCURRENTMONTH}</td>
-      </tr>\n
-    </table>
-  </form>
-</div>";
+  <div style='text-align:center; margin-bottom:20px;'>
+    <form method='post' action='" . e_SELF . "?" . e_QUERY . "' id='calform'>
+      <table class='table'>
+        <tr>
+          <td style='text-align:center;'>{EC_NAV_CATEGORIES} {EC_NAV_BUT_ALLEVENTS} {EC_NAV_BUT_VIEWCAT} {EC_NAV_BUT_ENTEREVENT} {EC_NAV_BUT_SUBSCRIPTION} {EC_NAV_BUT_PRINTLISTS} {EC_NAV_LINKCURRENTMONTH}</td>
+        </tr>
+      </table>
+    </form>
+  </div>";
 
 
 //------------------------------------------
 // CALENDAR CALENDAR - 'Big' calendar
 //------------------------------------------
-$CALENDAR_TEMPLATE['calendar']['start'] = "
-<div style='text-align:center'>
-  <table class='table fborder' style='background-color:#DDDDDD; width:100%'>
-    <colgroup>
-      <col style='width:14%; padding-bottom:0px;padding-right:0px; margin-right:0px; padding:2px;' />
-      <col style='width:14%; padding-bottom:0px;padding-right:0px; margin-right:0px; padding:2px;' />
-      <col style='width:14%; padding-bottom:0px;padding-right:0px; margin-right:0px; padding:2px;' />
-      <col style='width:14%; padding-bottom:0px;padding-right:0px; margin-right:0px; padding:2px;' />
-      <col style='width:14%; padding-bottom:0px;padding-right:0px; margin-right:0px; padding:2px;' />
-      <col style='width:14%; padding-bottom:0px;padding-right:0px; margin-right:0px; padding:2px;' />
-      <col style='width:14%; padding-bottom:0px;padding-right:0px; margin-right:0px; padding:2px;' />
-    </colgroup>";
+$CALENDAR_TEMPLATE['calendar']['big_calendar_start'] = "
+  <div style='text-align:center'>
+    <table class='table fborder' style='background-color:#DDDDDD; width:100%'>
+      <colgroup>
+        <col style='width:14%; padding-bottom:0px;padding-right:0px; margin-right:0px; padding:2px;' />
+        <col style='width:14%; padding-bottom:0px;padding-right:0px; margin-right:0px; padding:2px;' />
+        <col style='width:14%; padding-bottom:0px;padding-right:0px; margin-right:0px; padding:2px;' />
+        <col style='width:14%; padding-bottom:0px;padding-right:0px; margin-right:0px; padding:2px;' />
+        <col style='width:14%; padding-bottom:0px;padding-right:0px; margin-right:0px; padding:2px;' />
+        <col style='width:14%; padding-bottom:0px;padding-right:0px; margin-right:0px; padding:2px;' />
+        <col style='width:14%; padding-bottom:0px;padding-right:0px; margin-right:0px; padding:2px;' />
+      </colgroup>";
     
 //header row
-$CALENDAR_TEMPLATE['calendar']['header_start'] = "
-    <tr>";
-$CALENDAR_TEMPLATE['calendar']['header'] = "
-      <td class='fcaption' style='z-index: -1; background-color:#000; color:#FFF; width:90px; height:20px; text-align:center; vertical-align:middle;'>{EC_CALENDAR_CALENDAR_HEADER_DAY}</td>";
-$CALENDAR_TEMPLATE['calendar']['header_end'] = "
-    </tr>\n
-    <tr>";
+$CALENDAR_TEMPLATE['calendar']['big_calendar_header_start'] = "
+      <tr>";
+$CALENDAR_TEMPLATE['calendar']['big_calendar_header'] = "
+        <td class='fcaption' style='z-index: -1; background-color:#000; color:#FFF; width:90px; height:20px; text-align:center; vertical-align:middle;'>{EC_CALENDAR_CALENDAR_HEADER_DAY}</td>";
+$CALENDAR_TEMPLATE['calendar']['big_calendar_header_end'] = "
+      </tr>\n
+      <tr>";
 
-$CALENDAR_TEMPLATE['calendar']['weekswitch'] = "
-    </tr>\n
-    <tr>";
+$CALENDAR_TEMPLATE['calendar']['big_calendar_weekswitch'] = "
+      </tr>\n
+      <tr>";
 
 // 'Empty' cells where there's not a day at all
-$CALENDAR_TEMPLATE['calendar']['day_non'] = "
-      <td style='width:14%;height:90px;'></td>";
+$CALENDAR_TEMPLATE['calendar']['big_calendar_day_non'] = "
+        <td style='width:14%;height:90px;'></td>";
       
 //today
-$CALENDAR_TEMPLATE['calendar']['day_today'] = "
-      <td class='forumheader3' style='vertical-align:top;height:90px;'>
-        <span style='z-index: 2; position:relative; top:1px; height:10px;padding-right:0px'>{EC_CALENDAR_CALENDAR_DAY_TODAY_HEADING}</span>";
+$CALENDAR_TEMPLATE['calendar']['big_calendar_day_today'] = "
+        <td class='forumheader3' style='vertical-align:top;height:90px;'>
+          <span style='z-index: 2; position:relative; top:1px; height:10px;padding-right:0px'>{EC_CALENDAR_CALENDAR_DAY_TODAY_HEADING}</span>";
 
 //day has events
-$CALENDAR_TEMPLATE['calendar']['day_event'] = "
-      <td class='forumheader3' style='z-index: 1;vertical-align:top;height:90px;'>
-        <span style='z-index: 2; position:relative; top:1px; height:10px;padding-right:0px'><b>{EC_CALENDAR_CALENDAR_DAY_EVENT_HEADING}</b></span>";
+$CALENDAR_TEMPLATE['calendar']['big_calendar_day_event'] = "
+        <td class='forumheader3' style='z-index: 1;vertical-align:top;height:90px;'>
+          <span style='z-index: 2; position:relative; top:1px; height:10px;padding-right:0px'><b>{EC_CALENDAR_CALENDAR_DAY_EVENT_HEADING}</b></span>";
 
 // no events and not today
-$CALENDAR_TEMPLATE['calendar']['day_empty'] = "
-      <td class='forumheader2' style='z-index: 1;vertical-align:top;height:90px;'>
-        <span style='z-index: 2; position:relative; top:1px; height:10px;padding-right:0px'><b>{EC_CALENDAR_CALENDAR_DAY_EMPTY_HEADING}</b></span>";
+$CALENDAR_TEMPLATE['calendar']['big_calendar_day_empty'] = "
+        <td class='forumheader2' style='z-index: 1;vertical-align:top;height:90px;'>
+          <span style='z-index: 2; position:relative; top:1px; height:10px;padding-right:0px'><b>{EC_CALENDAR_CALENDAR_DAY_EMPTY_HEADING}</b></span>";
 
-$CALENDAR_TEMPLATE['calendar']['day_end'] = "
-      </td>";
+$CALENDAR_TEMPLATE['calendar']['big_calendar_day_end'] = "
+        </td>";
 
 // CALENDAR SHOW EVENT
 $sc_style['EC_CALENDAR_CALENDAR_RECENT_ICON']['pre'] = "<td style='vertical-align:top; color: #0; background-color: #ff00; width:10px;'>";
 $sc_style['EC_CALENDAR_CALENDAR_RECENT_ICON']['post'] = "</td>";
-$CALENDAR_TEMPLATE['calendar']['show_event'] = "<table cellspacing='0' cellpadding='0' style='width:100%;'><tr>{EC_CALENDAR_CALENDAR_RECENT_ICON}<td style='vertical-align:top; width:10px;'>{EC_SHOWEVENT_IMAGE}</td><td style='vertical-align:top; width:2%;'>{EC_SHOWEVENT_INDICAT}</td><td style='vertical-align:top;'>{EC_SHOWEVENT_HEADING}</td></tr>\n</table>";
+$CALENDAR_TEMPLATE['calendar']['big_calendar_show_event'] = "<table cellspacing='0' cellpadding='0' style='width:100%;'><tr>{EC_CALENDAR_CALENDAR_RECENT_ICON}<td style='vertical-align:top; width:10px;'>{EC_SHOWEVENT_IMAGE}</td><td style='vertical-align:top; width:2%;'>{EC_SHOWEVENT_INDICAT}</td><td style='vertical-align:top;'>{EC_SHOWEVENT_HEADING}</td></tr>\n</table>";
 
-$CALENDAR_TEMPLATE['calendar']['end'] = "
-    </tr>\n
-  </table>
+$CALENDAR_TEMPLATE['calendar']['big_calendar_end'] = "
+      </tr>\n
+    </table>
+  </div>
 </div>";
 
 
 
-// EVENT LIST ------------------------------------------------------------
+// EVENT LIST ------------------------------------------------------------   
+$CALENDAR_EVENT_TEMPLATE['event']['event_time_table'] = "
+<div id='event-calendar'>
+  <table cellpadding='0' cellspacing='1' class='table fborder'>
+    <tr>
+	    <td class='forumheader' style='width:18%; text-align:left'>{EC_PREV_MONTH}</td>
+	    <td class='fcaption' style='width:64%; text-align:center'>{EC_CURRENT_MONTH}</td>
+	    <td class='forumheader' style='width:18%; text-align:right'>{EC_NEXT_MONTH}</td>
+    </tr>
+    <tr>
+	    <td class='forumheader3' style='text-align:left'>{EC_PREV_YEAR}</td>
+	    <td class='fcaption' style='text-align:center; vertical-align:middle'>{EC_MONTH_LIST}</td>
+	    <td class='forumheader3' style='text-align:right'>{EC_NEXT_YEAR}</td>
+    </tr>\n
+  </table>";
+  
+$CALENDAR_EVENT_TEMPLATE['event']['event_navigation_table'] = "
+  <div style='text-align:center; margin-bottom:20px;'>
+    <form method='post' action='" . e_SELF . "?" . e_QUERY . "' id='calform'>
+      <table class='table'>
+        <tr>
+          <td style='text-align:center;'>{EC_NAV_CATEGORIES} {EC_NAV_BUT_ALLEVENTS} {EC_NAV_BUT_VIEWCAT} {EC_NAV_BUT_ENTEREVENT} {EC_NAV_BUT_SUBSCRIPTION} {EC_NAV_BUT_PRINTLISTS} {EC_NAV_LINKCURRENTMONTH}</td>
+        </tr>
+      </table>
+    </form>
+  </div>";
+
 $sc_style['EC_EVENTLIST_CAPTION']['pre'] = "<tr><td class='fcaption' colspan='2'>";
 $sc_style['EC_EVENTLIST_CAPTION']['post'] = ":<br /><br /></td></tr>\n";
 
-$EVENT_EVENTLIST_TABLE_START = "<table class='table fborder'>{EC_EVENTLIST_CAPTION}";
-$EVENT_EVENTLIST_TABLE_END = "</table>";
+$CALENDAR_EVENT_TEMPLATE['event']['eventlist-start'] = "<table class='table fborder'>{EC_EVENTLIST_CAPTION}";
+$CALENDAR_EVENT_TEMPLATE['event']['eventlist-end'] = "</table>";
 
 
 
@@ -169,21 +207,21 @@ $EVENT_EVENTLIST_TABLE_END = "</table>";
 $sc_style['EC_EVENTARCHIVE_CAPTION']['pre'] = "<tr><td colspan='2' class='fcaption'>";
 $sc_style['EC_EVENTARCHIVE_CAPTION']['post'] = "</td></tr>\n";
 
-$EVENT_ARCHIVE_TABLE_START = "<br /><table class='table fborder'>{EC_EVENTARCHIVE_CAPTION}";
-$EVENT_ARCHIVE_TABLE = "
+$CALENDAR_EVENT_TEMPLATE['event']['coming-event-start'] = "<br /><table class='table fborder'>{EC_EVENTARCHIVE_CAPTION}";
+$CALENDAR_EVENT_TEMPLATE['event']['coming-event'] = "
 <tr>
 	<td style='width:35%; vertical-align:top' class='forumheader3'>{EC_EVENT_RECENT_ICON}{EC_EVENTARCHIVE_DATE}</td>
 	<td style='width:65%' class='forumheader3'>{EC_EVENTARCHIVE_HEADING}</td>
 </tr>\n";
 //<br />{EVENTARCHIVE_DETAILS}
-$EVENT_ARCHIVE_TABLE_EMPTY = "<tr><td colspan='2' class='forumheader3'>{EC_EVENTARCHIVE_EMPTY}</td></tr>\n";
-$EVENT_ARCHIVE_TABLE_END = "</table>";
+$CALENDAR_EVENT_TEMPLATE['event']['coming-event-empty'] = "<tr><td colspan='2' class='forumheader3'>{EC_EVENTARCHIVE_EMPTY}</td></tr>\n";
+$CALENDAR_EVENT_TEMPLATE['event']['coming-event-end'] = "</table>";
 
 
 
 // EVENT SHOW EVENT ------------------------------------------------------------
-$EVENT_EVENT_TABLE_START = "<table class='table fborder' cellspacing='0' cellpadding='0'>";
-$EVENT_EVENT_TABLE_END = "</table>";
+$CALENDAR_EVENT_TEMPLATE['event']['event-start'] = "<table class='table fborder' cellspacing='0' cellpadding='0'>";
+$CALENDAR_EVENT_TEMPLATE['event']['event-end'] = "</table>";
 
 $sc_style['EC_EVENT_HEADING_DATE']['pre'] = "";
 $sc_style['EC_EVENT_HEADING_DATE']['post'] = "";
@@ -230,13 +268,13 @@ $sc_style['EC_IFNOT_ALLDAY']['post'] = "";
 //	1 - Normal event, starting and finishing on the same day
 //	2 - All-day event, starting and finishing on different days
 //	3 - All-day event, starting and finishing on the same day
-$EVENT_EVENT_DATETIME[0]  = "{EC_EVENT_DATE_START}".EC_LAN_144."{EC_EVENT_TIME_START}<b>  ".EC_LAN_69."</b> {EC_EVENT_DATE_END}{EC_IFNOT_ALLDAY=EC_EVENT_TIME_END}";
-$EVENT_EVENT_DATETIME[1]  = "{EC_EVENT_DATE_START} ".EC_LAN_84." {EC_EVENT_TIME_START}".EC_LAN_85."{EC_EVENT_TIME_END}";
-$EVENT_EVENT_DATETIME[2]  = "{EC_EVENT_DATE_START} <b>".EC_LAN_69."</b> {EC_EVENT_DATE_END}";
-$EVENT_EVENT_DATETIME[3]  = "{EC_EVENT_DATE_START}";
+$CALENDAR_EVENT_TEMPLATE['event']['event-datetime'][0]  = "{EC_EVENT_DATE_START}".EC_LAN_144."{EC_EVENT_TIME_START}<b>  ".EC_LAN_69."</b> {EC_EVENT_DATE_END}{EC_IFNOT_ALLDAY=EC_EVENT_TIME_END}";
+$CALENDAR_EVENT_TEMPLATE['event']['event-datetime'][1]  = "{EC_EVENT_DATE_START} ".EC_LAN_84." {EC_EVENT_TIME_START}".EC_LAN_85."{EC_EVENT_TIME_END}";
+$CALENDAR_EVENT_TEMPLATE['event']['event-datetime'][2]  = "{EC_EVENT_DATE_START} <b>".EC_LAN_69."</b> {EC_EVENT_DATE_END}";
+$CALENDAR_EVENT_TEMPLATE['event']['event-datetime'][3]  = "{EC_EVENT_DATE_START}";
 
 
-$EVENT_EVENT_TABLE = "
+$CALENDAR_EVENT_TEMPLATE['event']['event'] = "
 <tr>
   <td >
 	<a href='#{EC_EVENT_ID}' class='e-show-if-js e-expandit fcaption' style='display:inline-block; cursor:pointer; text-align:left; border:0px solid #000; width:100%' title='".EC_LAN_132."'>{EC_EVENT_RECENT_ICON}{EC_EVENT_CAT_ICON}{EC_EVENT_HEADING_DATE}{EC_IFNOT_ALLDAY=EC_EVENT_TIME_START}&nbsp;-&nbsp;{EC_EVENT_TITLE}</a>

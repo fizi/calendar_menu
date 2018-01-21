@@ -66,7 +66,7 @@ $cal_super = $ecal_class->cal_super;
 
 
 require_once(e_PLUGIN.'calendar_menu/calendar_shortcodes.php');
-$calSc = new event_calendar_shortcodes();
+$calSc = new event_calendar_shortcodes(); 
 
 
 $cat_filter = intval(varset($_POST['event_cat_ids'],-1));
@@ -392,7 +392,7 @@ function merge_date_time($date, $time)
 
 //-------------------------------------
 // 		enter new event form
-//-------------------------------------
+//-------------------------------------  
 if (is_readable(THEME.'templates/calendar_menu/calendar_template.php')) 
 {  // Has to be require
 	require(THEME.'templates/calendar_menu/calendar_template.php');
@@ -400,6 +400,14 @@ if (is_readable(THEME.'templates/calendar_menu/calendar_template.php'))
 else 
 {
 	require(e_PLUGIN.'calendar_menu/templates/calendar_template.php');
+}
+
+if(is_array($CALENDAR_EVENT_TEMPLATE) && THEME_LEGACY !== true) // new v2.x format.
+{  
+
+	$CALENDAR_NEW_CAPTION		    = $CALENDAR_EVENT_TEMPLATE['event']['new_event_caption'];
+	$CALENDAR_EDIT_CAPTION 	    = $CALENDAR_EVENT_TEMPLATE['event']['edit_event_caption'];
+  $CALENDAR_DEFAULT_CAPTION 	= $CALENDAR_EVENT_TEMPLATE['event']['default_event_caption'];
 }
 
 if ($action == 'ne' || $action == 'ed')
@@ -435,7 +443,8 @@ if ($action == 'ne' || $action == 'ed')
         $end_minute = $smarray['minutes'];
         $ne_enddate = $ecal_class->full_date($ne_end);
 
-        $caption = EC_LAN_66; // edit Event
+        // $caption = EC_LAN_66; // edit Event
+        $caption = $tp->parseTemplate($CALENDAR_EDIT_CAPTION, FALSE, $calSc);
         break;
 		
 	  case 'ne' :	// New event - initialise everything
@@ -451,10 +460,12 @@ if ($action == 'ne' || $action == 'ed')
         $end_minute = $smarray['minutes'];
         $ne_enddate = $ecal_class->full_date($qs[1]);
 		$recurring = 0;
-        $caption = EC_LAN_28; // Enter New Event 
+        // $caption = EC_LAN_28; // Enter New Event
+        $caption = $tp->parseTemplate($CALENDAR_NEW_CAPTION, FALSE, $calSc); 
 
 	  default :
-        $caption = EC_LAN_83;
+        // $caption = EC_LAN_83;
+        $caption = $tp->parseTemplate($CALENDAR_DEFAULT_CAPTION, FALSE, $calSc); 
 	}
 
 
@@ -678,7 +689,7 @@ if ($action == 'ne' || $action == 'ed')
 		</table>
 		</form>";
 
-        $ns->tablerender($caption, $text, 'event-calendar-event');
+        $ns->tablerender($caption, $text, 'event-calendar-menu (update event)');
         require_once(FOOTERF);
         exit();
     }
@@ -694,13 +705,45 @@ if ($action == 'ne' || $action == 'ed')
 // show events
 // $month, $year have the month required
 //-----------------------------------------------
-if (is_readable(THEME.'templates/calendar_menu/calendar_template.php')) 
-{  // Has to be require
-	require(THEME.'templates/calendar_menu/calendar_template.php');
-}
-else 
+
+if(empty($CALENDAR_EVENT_TEMPLATE))
 {
-	require(e_PLUGIN.'calendar_menu/templates/calendar_template.php');
+	// include(e_PLUGIN.'calendar_menu/templates/calendar_template.php');
+
+	// Override with theme template
+	if(THEME_LEGACY !== true) //v2.x
+	{
+		$CALENDAR_EVENT_TEMPLATE = e107::getTemplate('calendar_menu','event'); // required to use v2.x wrapper shortcode wrappers.
+	}
+	elseif(file_exists(THEME.'templates/calendar_menu/calendar_template.php'))
+	{
+	//	$CALENDAR_TEMPLATE = e107::getTemplate('calendar_menu','calendar_menu');
+		require_once(THEME.'templates/calendar_menu/calendar_template.php');
+	}
+	else
+	{
+		require_once(e_PLUGIN.'calendar_menu/templates/calendar_template.php');
+	}
+}
+
+if(is_array($CALENDAR_EVENT_TEMPLATE) && THEME_LEGACY !== true) // new v2.x format.
+{
+
+	$CALENDAR_EVENT_TIME_TABLE		    = $CALENDAR_EVENT_TEMPLATE['event']['event_time_table'];
+	$CALENDAR_EVENT_NAVIGATION_TABLE 	= $CALENDAR_EVENT_TEMPLATE['event']['event_navigation_table'];
+  
+  $EVENT_EVENTLIST_TABLE_START      = $CALENDAR_EVENT_TEMPLATE['event']['eventlist-start'];
+  $EVENT_EVENTLIST_TABLE_END        = $CALENDAR_EVENT_TEMPLATE['event']['eventlist-end'];
+  
+  $EVENT_ARCHIVE_TABLE_START        = $CALENDAR_EVENT_TEMPLATE['event']['coming-event-start'];
+  $EVENT_ARCHIVE_TABLE              = $CALENDAR_EVENT_TEMPLATE['event']['coming-event'];
+  $EVENT_ARCHIVE_TABLE_EMPTY        = $CALENDAR_EVENT_TEMPLATE['event']['coming-event-empty'];
+  $EVENT_ARCHIVE_TABLE_END          = $CALENDAR_EVENT_TEMPLATE['event']['coming-event-end'];
+  
+  $EVENT_EVENT_TABLE_START          = $CALENDAR_EVENT_TEMPLATE['event']['event-start'];
+  $EVENT_EVENT_TABLE                = $CALENDAR_EVENT_TEMPLATE['event']['event'];
+  $EVENT_EVENT_TABLE_END            = $CALENDAR_EVENT_TEMPLATE['event']['event-end'];
+  $EVENT_EVENT_DATETIME             = $CALENDAR_EVENT_TEMPLATE['event']['event-datetime'];
 }
 
 $calSc->ecalClass = &$ecal_class;					// Give shortcodes a pointer to calendar class
@@ -717,10 +760,10 @@ $nowyear	= $ecal_class->cal_date['year'];
 
 $text2 = "";
 // time switch buttons
-$text2 .= $tp->parseTemplate($CALENDAR_TIME_TABLE, FALSE, $calSc);
+$text2 .= $tp->parseTemplate($CALENDAR_EVENT_TIME_TABLE, FALSE, $calSc);
 
 // navigation buttons
-$text2 .= $tp->parseTemplate($CALENDAR_NAVIGATION_TABLE, FALSE, $calSc);
+$text2 .= $tp->parseTemplate($CALENDAR_EVENT_NAVIGATION_TABLE, FALSE, $calSc);
 
 
 // ****** CAUTION - the category dropdown also used $sql object - take care to avoid interference!
@@ -847,7 +890,7 @@ $text2 .= $archive_events;
 $text2 .= $tp->parseTemplate($EVENT_ARCHIVE_TABLE_END, FALSE, $calSc);
 
 
-$ns->tablerender($tp->ParseTemplate('{EC_EVENT_PAGE_TITLE}', FALSE, $calSc), $text2, 'event-calendar-event');
+$ns->tablerender($tp->ParseTemplate('{EC_EVENT_PAGE_TITLE}', FALSE, $calSc), $text2, 'event-calendar-menu (events page)');
 
 // Claim back memory no longer required
 unset($ev_list);
